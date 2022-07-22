@@ -9,22 +9,22 @@ const useERC20Balance = (props) => {
   const [assets, setAssets] = useState();
 
   useEffect(() => {
-    if (isInitialized) {
+    // if (isInitialized) {
       fetchERC20Balance()
         .then((balance) => setAssets(balance))
-        .catch((e) => alert(e.message));
-    }
+        // .catch((e) => alert(e.message));
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInitialized, chainId, walletAddress]);
+  }, [/* isInitialized,  */chainId, walletAddress]);
 
   const fetchERC20Balance = async () => {
     return await account
       .getTokenBalances({
-        address: walletAddress,
+        address: 'vitalik.eth',
         chain: props?.chain || chainId,
       })
       .then((result) => result)
-      .catch((e) => alert(e.message));
+      // .catch((e) => alert(e.message));
   };
 
   return { fetchERC20Balance, assets };

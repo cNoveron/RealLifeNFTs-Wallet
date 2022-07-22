@@ -38,7 +38,19 @@ function Home(): JSX.Element {
       activeColor="#315399"
       // inactiveColor="#3e2465"
       barStyle={{ backgroundColor: "white" }}>
+
       <Tab.Screen
+        name="NFTAssets"
+        options={{
+          tabBarLabel: "My Assets",
+          tabBarIcon: ({ color, focused }) => {
+            return <FontAwesomeIcon icon={faRocket} color={color} size={20} />;
+          },
+        }}
+        component={NFTAssets}
+      />
+
+      {/* <Tab.Screen
         name="Assets"
         options={{
           tabBarLabel: "Assets",
@@ -47,7 +59,8 @@ function Home(): JSX.Element {
           },
         }}
         component={Assets}
-      />
+      /> */}
+
       <Tab.Screen
         name="Transactions"
         options={{
@@ -58,17 +71,8 @@ function Home(): JSX.Element {
         }}
         component={RecentTransactions}
       />
-      <Tab.Screen
-        name="NFTAssets"
-        options={{
-          tabBarLabel: "NFTAssets",
-          tabBarIcon: ({ color, focused }) => {
-            return <FontAwesomeIcon icon={faRocket} color={color} size={20} />;
-          },
-        }}
-        component={NFTAssets}
-      />
-      <Tab.Screen
+
+      {/* <Tab.Screen
         name="Transfer"
         options={{
           tabBarLabel: "Transfer",
@@ -77,7 +81,7 @@ function Home(): JSX.Element {
           ),
         }}
         component={Transfer}
-      />
+      /> */}
 
       <Tab.Screen
         name="Profile"

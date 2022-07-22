@@ -23,7 +23,7 @@ export const useNFTBalance = props => {
   );
 
   useEffect(() => {
-    if (isInitialized) {
+    // if (isInitialized) {
       if (data?.result) {
         const NFTs = data.result;
         for (let NFT of NFTs) {
@@ -41,7 +41,7 @@ export const useNFTBalance = props => {
         }
         setNFTBalance(NFTs);
       }
-    }
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialized, chainId, walletAddress, data]);
 

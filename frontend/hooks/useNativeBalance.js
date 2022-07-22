@@ -12,7 +12,7 @@ const useNativeBalance = chain => {
   const [assets, setAssets] = useState();
 
   useEffect(() => {
-    if (isInitialized) {
+    // if (isInitialized) {
       //pick from passed down chain into component or default app level chain
       const chainFinal = chain || chainId;
       const native = getNativeByChain(chainFinal);
@@ -24,8 +24,8 @@ const useNativeBalance = chain => {
           const balanceFormatted = `${n4.format(balanceInWei)} ${native}`;
           setNativeBalance(balanceFormatted);
         })
-        .catch(e => alert(e.message));
-    }
+        // .catch(e => alert(e.message));
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialized, chainId, walletAddress]);
 
@@ -37,7 +37,7 @@ const useNativeBalance = chain => {
     return await account
       .getNativeBalance(options)
       .then(result => result)
-      .catch(e => alert(e.message));
+      // .catch(e => alert(e.message));
   };
 
   return {fetchNativeBalance, nativeBalance};

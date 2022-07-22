@@ -28,7 +28,7 @@ import {
   useMoralisWeb3Api,
   useMoralisWeb3ApiCall,
 } from "react-moralis";
-import { useWalletConnect } from "../WalletConnect";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import LottieView from "lottie-react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -61,20 +61,24 @@ const LoginScreen = ({ navigation }) => {
 
   const passwordInputRef = createRef();
 
-  const handleCryptoLogin = () => {
-    authenticate({ connector })
-      .then(() => {
-        if (authError) {
-          setErrortext(authError.message);
-          setVisible(true);
-        } else {
-          if (isAuthenticated) {
+  const handleCryptoLogin = async () => {
+    await authenticate({ provider: "web3Auth", clientId: "BI1RPSRm0DF4kFKly9-ieY-62NbQatM52qYss_-sIcQUVO8Ji4aPkLr9xVr4siIBJ6Eh7l8DrqoEcK_wjUK-HYE" })
+      .then(async () => {
+        // if (authError) {
+        //   setErrortext(authError.message);
+        //   setVisible(true);
+        // } else {
+        //   if (isAuthenticated) {
             navigation.replace("DrawerNavigationRoutes");
-          }
-        }
+        //   }
+        // }
       })
       .catch(() => {});
   };
+
+  // Moralis.onWeb3Enabled(async () => {
+  //   await Moralis.enableWeb3({ privateKey: "2b0380e951fb2c170ba91c4089a3ba8568feca9be64451921a6a239bba9f54ff" });
+  // })
 
   useEffect(() => {
     isAuthenticated && navigation.replace("DrawerNavigationRoutes");
@@ -92,13 +96,18 @@ const LoginScreen = ({ navigation }) => {
           }}>
           <Image
             style={{ flex: 1, maxWidth: '100%', alignSelf: 'center' }}
-            source={require("../eth.png")}
+            source={require("../../assets/image/t10n.jpeg")}
           />
+          <Text
+            style={styles.headerText} 
+          >
+            Crypto Assets Demo
+          </Text>
           <View style={{ flex: 1 }}>
             <KeyboardAvoidingView enabled>
               <View style={{ alignItems: "center" }}>
                 <LottieView source={Animation} loop autoPlay />
-                <Image
+                {/* <Image
                   source={require("../moralis-logo.png")}
                   style={{
                     width: "50%",
@@ -106,7 +115,7 @@ const LoginScreen = ({ navigation }) => {
                     resizeMode: "contain",
                     margin: 30,
                   }}
-                />
+                /> */}
               </View>
 
               <View>
@@ -125,9 +134,9 @@ const LoginScreen = ({ navigation }) => {
                     </Dialog>
                   </Portal>
                 )}
-                {isAuthenticating && (
+                {/* {isAuthenticating && (
                   <ActivityIndicator animating={true} color={"white"} />
-                )}
+                )} */}
               </View>
 
               <TouchableOpacity
@@ -207,5 +216,13 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     fontSize: 14,
+  },
+  headerText: {
+    color: 'black',
+    fontWeight: '600',
+    fontSize: 35,
+    backgroundColor: 'white',
+    paddingTop: 10,
+    textAlign: "center",
   },
 });

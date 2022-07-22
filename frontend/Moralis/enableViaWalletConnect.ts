@@ -4,7 +4,7 @@ import { AbstractProvider } from "web3-core";
 import { JsonRpcPayload, JsonRpcResponse } from "web3-core-helpers";
 
 // eslint-disable-next-line functional/prefer-readonly-type
-export async function enableViaWalletConnect({ connector }: { connector: WalletConnect }) {
+export async function enableViaWalletConnect({  }: { connector: WalletConnect }) {
   // @ts-ignore
   const { connector: newConnector } = await connector.connect();
 
