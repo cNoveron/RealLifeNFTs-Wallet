@@ -101,7 +101,7 @@ const LoginScreen = ({ navigation }) => {
           <Text
             style={styles.headerText} 
           >
-            Crypto Assets Demo
+            Tokenized Luxury Watches
           </Text>
           <View style={{ flex: 1 }}>
             <KeyboardAvoidingView enabled>

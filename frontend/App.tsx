@@ -12,7 +12,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import CryptoAuth from "./Components/CryptoAuth";
 import RecentTransactions from "./Components/RecentTransactions/RecentTransactions";
 import Assets from "./Components/Assets/Assets";
-import Transfer from "./Components/Transfer/Transfer";
+import TransferWatch from "./Components/Transfer/TransferWatch";
 import Profile from "./Components/Profile/Profile";
 import Header from "./Components/Header";
 import NFTAssets from "./Components/NFT/NFTAssets";
@@ -42,7 +42,7 @@ function Home(): JSX.Element {
       <Tab.Screen
         name="NFTAssets"
         options={{
-          tabBarLabel: "My Assets",
+          tabBarLabel: "My Watches",
           tabBarIcon: ({ color, focused }) => {
             return <FontAwesomeIcon icon={faRocket} color={color} size={20} />;
           },
@@ -64,7 +64,7 @@ function Home(): JSX.Element {
       <Tab.Screen
         name="Transactions"
         options={{
-          tabBarLabel: "Transactions",
+          tabBarLabel: "Buy",
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faCreditCard} color={color} size={20} />
           ),
@@ -72,16 +72,16 @@ function Home(): JSX.Element {
         component={RecentTransactions}
       />
 
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Transfer"
         options={{
-          tabBarLabel: "Transfer",
+          tabBarLabel: "Sell",
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faPaperPlane} color={color} size={20} />
           ),
         }}
-        component={Transfer}
-      /> */}
+        component={TransferWatch}
+      />
 
       <Tab.Screen
         name="Profile"

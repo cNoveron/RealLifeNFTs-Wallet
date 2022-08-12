@@ -17,7 +17,7 @@ import {
 } from "react-native-paper";
 import { getNativeByChain } from '../../helpers/networks';
 
-const NFTAssets = () => {
+const TransferWach = () => {
   const { NFTBalance, isLoading } = useNFTBalance();
   const { chainId } = useMoralisDapp();
   const { Moralis } = useMoralis();
@@ -36,7 +36,12 @@ const NFTAssets = () => {
     return (
       <View style={styles.itemContainer}>
         <View style={styles.itemView}>
-          <View>
+          <View
+            style={{
+              justifyContent: 'flex-start',
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}>
             <Image
               source={{ uri: image }}
               style={styles.nftImage}
@@ -52,29 +57,11 @@ const NFTAssets = () => {
               paddingVertical: 10,
             }}>
             <Text style={styles.nameBig}>{nftName}</Text>
-            <Text style={styles.name}>Contract Type: {contractType}</Text>
-            <Text style={styles.name} ellipsizeMode={'tail'} numberOfLines={1}>
-              Token ID: {tokenId}
-            </Text>
-            <Text style={styles.name} ellipsizeMode={'tail'} numberOfLines={1}>
-              Token Address: {tokenAddress}
-            </Text>
-            <Text style={styles.name} ellipsizeMode={'tail'} numberOfLines={1}>
-              Chain: {getNativeByChain(chain)}
-            </Text>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={() =>
-                Linking.openURL("https://etherscan.io/nft/0xc323f3b39ab0779fc6300cad7d7e3f47c1b86c27/" + tokenId)
-              }>
-              <Text style={styles.buttonTextStyle}>See asset on the blockchain</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={showDialog}>
-              <Text style={styles.buttonTextStyle}>Issue proof of authenticity</Text>
+              <Text style={styles.buttonTextStyle}>Sell watch</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -82,17 +69,14 @@ const NFTAssets = () => {
           <Portal>
             <Modal visible={visible} onDismiss={hideDialog}>
               <Text style={{...styles.dialogText, marginBottom: 20}}>
-                This is the digital signature of the certificate issued by Franck Muller. Scan the QR code to verify the signature:
+                Waiting to the buyer to pay and complete the transaction
               </Text>
                 {/* <View> */}
                   <Image
-                    style={{ maxWidth: '100%', alignSelf: 'center' }}
+                    style={{ maxWidth: '100%', alignSelf: 'center', margin: '5%' }}
                     source={require("../../../assets/image/qr.png")}
                   />
                 {/* </View> */}
-              <Text style={{...styles.dialogText, color: '#39f', paddingVertical: 20}}>
-              PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDkzLjMzOCIgaGVpZ2h0PSIxNDkzLjMzOCIgdmlld0JveD0iMCAwIDE0MDAgMTQwMCI+PHBhdGggc3Ryb2tlPSIjMDAwIiBkPSJNNjE2IDkzM2MtNS44NC0yLjA0LTE4Ljc0IDIuMTctMjYgMS43OS0xNy4wOC0uODgtMzYuNzgtNi4xMi01My0xMS42Mi0xMC45Ny0zLjcyLTIzLjc3LTEwLjA4LTMyLjcyLTE3LjQ2
-              </Text>
               <Button style={styles.modalButton} onPress={() =>
                 Linking.openURL("https://etherscan.io/tx/0x71b23e51fe0cfe6f8e4c0708e50126c57ced6fc687ffd0406ba080c4c7bbb807")
               }>Verify Signature On-Chain</Button>
@@ -109,7 +93,7 @@ const NFTAssets = () => {
       tokenAddress: '0xbe03ea86a1bb5461f54ab0e1322da61f4957cea2',
       image: 'https://lh3.googleusercontent.com/FY5rs0-3hbSLD_Xurp73hl2Mjht-Y-OCSvkyW2th7ujUO2NHWEgkszbThBHhJ6iX4s-O6zhHMc9sg2SJGHGOWl8Kc-qTkRFKDh9D=w650',
       video: 'https://openseauserdata.com/files/d672b77994361c5fee46131e943fe252.mp4#t=0.001',
-      nftName: 'watch 324234',
+      nftName: 'Daytona Silver Orange Dial',
       chain: 3,
       contractType: 'ERC721',
       tokenId: '112',
@@ -118,7 +102,7 @@ const NFTAssets = () => {
       tokenAddress: '0xbe03ea86a1bb5461f54ab0e1322da61f4957cea2',
       image: 'https://lh3.googleusercontent.com/4SrYcckq8upyKFBBRFrFiRUHxglf3qI9TPPqhXhedPrZJ8hi0-oQZyj0ZcAIZuZzOFpCgrS5-FkiitvsccasC0z8N7UWkduUWqEr=w650',
       video: 'https://openseauserdata.com/files/a1baab07a46edfb6c63e0365880ae1b7.mp4#t=0.001',
-      nftName: 'watch 324234',
+      nftName: 'Daytona Silver Blue Dial',
       chain: 3,
       contractType: 'ERC721',
       tokenId: '157',
@@ -127,7 +111,7 @@ const NFTAssets = () => {
       tokenAddress: '0xbe03ea86a1bb5461f54ab0e1322da61f4957cea2',
       image: 'https://lh3.googleusercontent.com/E2lLeABUqURw26lD_buZx4XXxRCCcBijKrDFe9rf-RHVOqlEI3imykR6v0sPI4saBQGF8jDFKm0WuM-7BOpjyayZidvYaEGD7I6-=w650',
       video: 'https://openseauserdata.com/files/da42e90d4a703b42947dcc9407763699.mp4#t=0.001',
-      nftName: 'watch 324234',
+      nftName: 'Daytona Gold Yellow Dial',
       chain: 3,
       contractType: 'ERC721',
       tokenId: '138',
@@ -140,7 +124,7 @@ const NFTAssets = () => {
       <Item
         tokenAddress={item.tokenAddress}
         image={item.image}
-        nftName={item.name}
+        nftName={item.nftName}
         chain={chainId}
         contractType={item.contractType}
         tokenId={item.tokenId}
@@ -228,9 +212,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   nftImage: {
-    height: 450,
-    borderRadius: 20,
-    margin: '10%'
+    height: 60,
+    borderRadius: 7,
+    margin: '0%',
   },
   assetsViewer: {
     backgroundColor: 'black',
@@ -244,4 +228,4 @@ const styles = StyleSheet.create({
   modalButton: {backgroundColor: '#7DE24E', margin: 10}
 });
 
-export default NFTAssets;
+export default TransferWach;
