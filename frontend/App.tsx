@@ -10,7 +10,7 @@ import { LogBox } from "react-native";
 
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import CryptoAuth from "./Components/CryptoAuth";
-import RecentTransactions from "./Components/RecentTransactions/RecentTransactions";
+import BuyWatch from "./Components/RecentTransactions/BuyWatch";
 import Assets from "./Components/Assets/Assets";
 import TransferWatch from "./Components/Transfer/TransferWatch";
 import Profile from "./Components/Profile/Profile";
@@ -69,7 +69,7 @@ function Home(): JSX.Element {
             <FontAwesomeIcon icon={faCreditCard} color={color} size={20} />
           ),
         }}
-        component={RecentTransactions}
+        component={BuyWatch}
       />
 
       <Tab.Screen
