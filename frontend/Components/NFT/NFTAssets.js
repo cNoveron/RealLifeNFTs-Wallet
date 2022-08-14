@@ -74,7 +74,7 @@ const NFTAssets = () => {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={showDialog}>
-              <Text style={styles.buttonTextStyle}>Issue proof of authenticity</Text>
+              <Text style={styles.buttonTextStyle}>Show proof of authenticity</Text>
             </TouchableOpacity>
           </View>
         </View>

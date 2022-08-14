@@ -15,13 +15,17 @@ import { getEllipsisTxt } from "../../utils/formatters";
 import useERC20Transfers from "../../hooks/useERC20Transfers";
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Divider, Modal, Button, Card } from "@ui-kitten/components";
+import { Divider, Button, Card } from "@ui-kitten/components";
 import {
   TouchableHighlight,
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import TransactionDetails from "./TransactionDetails";
-import { ActivityIndicator } from "react-native-paper";
+import { 
+  Modal, 
+  Portal, 
+  Provider, 
+} from "react-native-paper";
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
@@ -57,76 +61,85 @@ const onSuccess = e => {
 function BuyWatch() {
   const { ERC20Transfers } = useERC20Transfers();
   const { Moralis } = useMoralis();
-  const [showModal, setShowModal] = useState(false);
-  const [transactionDetails, setTransactionDetails] = useState(false);
+  const [scannerIsVisible, setScannerIsVisible] = useState(false);
+  const [watchDataIsVisible, setWatchDataIsVisible] = useState(false);
 
   // console.log(ERC20Transfers ? ERC20Transfers[0] : "");
 
   useEffect(() => {}, [ERC20Transfers]);
 
-  function onPressTransaction(item) {
-    setTransactionDetails(item);
-    setShowModal(true);
-  }
-
-  const renderItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          onPressTransaction(item);
-        }}>
-        <Item
-          address={item.address}
-          Moralis={Moralis}
-          value={item.value}
-          hash={item.transaction_hash}
-        />
-      </TouchableOpacity>
-    );
-  };
+  const showScanner = () => setScannerIsVisible(true);
+  const hideScanner = () => setScannerIsVisible(false);
+  const showWatchData = () => setWatchDataIsVisible(true) && hideScanner();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Modal
-        visible={showModal}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setShowModal(false)}
-        style={{ width: "90%", borderRadius: 30 }}>
-        <TransactionDetails
-          setShowModal={setShowModal}
-          transactionDetails={transactionDetails}
-        />
-      </Modal>
-
-      <ScrollView>
+    <Provider>
+      <SafeAreaView style={styles.container}>
         <View style={styles.viewContainer}>
+
           <Text style={styles.headerText} category="h4">
             💰 Buy Watch
           </Text>
+
           <Text style={styles.subheader}>ERC20 Transactions</Text>
-          <QRCodeScanner
-            onRead={onSuccess}
-            flashMode={RNCamera.Constants.FlashMode.torch}
-            topContent={
-              <Text style={styles.centerText}>
-                Go to{' '}
-                <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-                your computer and scan the QR code.
-              </Text>
-            }
-            bottomContent={
-              <TouchableOpacity style={styles.buttonTouchable}>
-                <Text style={styles.buttonText}>OK. Got it!</Text>
-              </TouchableOpacity>
-            }
-          />
+
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={showScanner}>    
+            <Text style={styles.buttonTextStyle}>Scan seller's QR code</Text>
+          </TouchableOpacity>
+
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+
+      <View style={styles.viewContainer}>
+        <Portal>
+          <Modal 
+            visible={scannerIsVisible} 
+            onDismiss={hideScanner}>
+            <View>
+              <QRCodeScanner
+                onRead={onSuccess}
+                flashMode={RNCamera.Constants.FlashMode.torch}
+                topContent={
+                  <Text style={styles.centerText}>
+                    Scan the code from the seller to:{'\n'}
+                    - View the watch{'\n'}
+                    - Verify its signature and buy it
+                  </Text>
+                }
+              />
+            </View>
+            <Button style={styles.modalButton} onPress={hideScanner}>Hide scanner</Button>
+          </Modal>
+        </Portal>
+      </View>
+
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonStyle: {
+    backgroundColor: "#7DE24E",
+    borderWidth: 0,
+    color: "#FFFFFF",
+    borderColor: "#7DE24E",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    marginLeft: 35,
+    marginRight: 35,
+    marginTop: 20,
+    marginBottom: 5,
+  },
+  buttonTextStyle: {
+    color: "#000",
+    paddingVertical: 10,
+    fontSize: 16,
+    fontWeight: "600",
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -213,7 +226,9 @@ const styles = StyleSheet.create({
   },
   buttonTouchable: {
     padding: 16
-  }
+  },
+  modalButton: {backgroundColor: '#7DE24E', margin: 10}
 });
 
 export default BuyWatch;
+
