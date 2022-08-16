@@ -21,8 +21,9 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import TransactionDetails from "./TransactionDetails";
-import { 
-  Modal, 
+import {
+  ActivityIndicator, 
+  Modal,
   Portal, 
   Provider, 
 } from "react-native-paper";
@@ -51,12 +52,6 @@ const Item = ({ address, Moralis, value, logo, hash }) => (
   </View>
 );
 
-const onSuccess = e => {
-  Linking.openURL(e.data).catch(err =>
-    console.error('An error occured', err)
-  );
-};
-
 
 function BuyWatch() {
   const { ERC20Transfers } = useERC20Transfers();
@@ -70,52 +65,46 @@ function BuyWatch() {
 
   const showScanner = () => setScannerIsVisible(true);
   const hideScanner = () => setScannerIsVisible(false);
-  const showWatchData = () => setWatchDataIsVisible(true) && hideScanner();
+  const showWatchData = () => setWatchDataIsVisible(true);
+  const hideWatchData = () => setWatchDataIsVisible(false);
+
+  const onSuccess = e => {
+    showWatchData()
+    // Linking.openURL(e.data).catch(err =>
+    //   console.error('An error occured', err)
+    // );
+  };
 
   return (
     <Provider>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.viewContainer}>
+      <Portal>
+
+        <SafeAreaView style={styles.container}>
 
           <Text style={styles.headerText} category="h4">
             💰 Buy Watch
           </Text>
 
-          <Text style={styles.subheader}>ERC20 Transactions</Text>
+          <QRCodeScanner
+            onRead={onSuccess}
+            flashMode={RNCamera.Constants.FlashMode.off}
+            reactivate
+            topContent={
+              <Text style={{ ...styles.dialogText, marginBottom: 20 }}>
+                Scan the code from the seller to:{'\n'}
+                - View the watch{'\n'}
+                - Verify its signature and buy it
+              </Text>
+            }
+          />
+            
+        </SafeAreaView>
 
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={showScanner}>    
-            <Text style={styles.buttonTextStyle}>Scan seller's QR code</Text>
-          </TouchableOpacity>
+        <Modal visible={watchDataIsVisible} onDismiss={hideWatchData}>
+          <ActivityIndicator/>
+        </Modal>
 
-        </View>
-      </SafeAreaView>
-
-      <View style={styles.viewContainer}>
-        <Portal>
-          <Modal 
-            visible={scannerIsVisible} 
-            onDismiss={hideScanner}>
-            <View>
-              <QRCodeScanner
-                onRead={onSuccess}
-                flashMode={RNCamera.Constants.FlashMode.torch}
-                topContent={
-                  <Text style={styles.centerText}>
-                    Scan the code from the seller to:{'\n'}
-                    - View the watch{'\n'}
-                    - Verify its signature and buy it
-                  </Text>
-                }
-              />
-            </View>
-            <Button style={styles.modalButton} onPress={hideScanner}>Hide scanner</Button>
-          </Modal>
-        </Portal>
-      </View>
-
+      </Portal>
     </Provider>
   );
 }
@@ -158,9 +147,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   headerText: {
-    color: "black",
-    fontWeight: "600",
-    fontSize: 30,
+    color: 'black',
+    fontWeight: '600',
+    fontSize: 35,
+    backgroundColor: 'white',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
@@ -226,6 +218,12 @@ const styles = StyleSheet.create({
   },
   buttonTouchable: {
     padding: 16
+  },
+  dialogText: {
+    color: 'black',
+    alignSelf: 'center',
+    paddingHorizontal: 60,
+    fontSize: 15
   },
   modalButton: {backgroundColor: '#7DE24E', margin: 10}
 });
