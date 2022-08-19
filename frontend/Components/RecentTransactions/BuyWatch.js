@@ -56,20 +56,37 @@ const Item = ({ address, Moralis, value, logo, hash }) => (
 function BuyWatch() {
   const { ERC20Transfers } = useERC20Transfers();
   const { Moralis } = useMoralis();
-  const [scannerIsVisible, setScannerIsVisible] = useState(false);
-  const [watchDataIsVisible, setWatchDataIsVisible] = useState(false);
+
+  const [activityIndicatorIsVisible, setActivityIndicatorIsVisible] = useState(false);
+  const [watchModalIsVisible, setWatchModalIsVisible] = useState(false);
 
   // console.log(ERC20Transfers ? ERC20Transfers[0] : "");
 
   useEffect(() => {}, [ERC20Transfers]);
 
-  const showScanner = () => setScannerIsVisible(true);
-  const hideScanner = () => setScannerIsVisible(false);
-  const showWatchData = () => setWatchDataIsVisible(true);
-  const hideWatchData = () => setWatchDataIsVisible(false);
+  const showActivityIndicator = () => setActivityIndicatorIsVisible(true);
+  const hideActivityIndicator = () => setActivityIndicatorIsVisible(false);
+
+  const openWatchModal = () => {
+    showActivityIndicator()
+
+    setTimeout(hideActivityIndicator, 5000)
+
+    setTimeout(() => setWatchModalIsVisible(true), 5000)
+  };
+
+  const runVerificationAnimation = () => {
+    setWatchModalIsVisible(false)
+
+    showActivityIndicator()
+
+    setTimeout(hideActivityIndicator, 5000)
+
+  };
+
+  const hideWatchModal = () => setWatchModalIsVisible(false);
 
   const onSuccess = e => {
-    showWatchData()
     // Linking.openURL(e.data).catch(err =>
     //   console.error('An error occured', err)
     // );
@@ -84,24 +101,59 @@ function BuyWatch() {
           <Text style={styles.headerText} category="h4">
             💰 Buy Watch
           </Text>
+          <Text style={{ ...styles.dialogText, marginBottom: 20 }}>
+            Scan the code from the seller to get a 3d view of the watch
+          </Text>
 
           <QRCodeScanner
-            onRead={onSuccess}
+            onRead={openWatchModal}
             flashMode={RNCamera.Constants.FlashMode.off}
             reactivate
-            topContent={
-              <Text style={{ ...styles.dialogText, marginBottom: 20 }}>
-                Scan the code from the seller to:{'\n'}
-                - View the watch{'\n'}
-                - Verify its signature and buy it
-              </Text>
-            }
           />
             
         </SafeAreaView>
 
-        <Modal visible={watchDataIsVisible} onDismiss={hideWatchData}>
-          <ActivityIndicator/>
+        <Modal visible={activityIndicatorIsVisible}>
+          <ActivityIndicator 
+            animating={activityIndicatorIsVisible}
+            size={100}/>
+        </Modal>
+
+        <Modal 
+          visible={watchModalIsVisible} 
+          onDismiss={hideActivityIndicator}>
+          <View
+            style={{
+              justifyContent: 'flex-start',
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}>
+            <Text style={styles.nameBig}>Rolex Daytona</Text>
+            <Text style={styles.name}>Contract Type: ERC721</Text>
+            <Text style={styles.name} ellipsizeMode={'tail'} numberOfLines={1}>
+              Token ID: 112
+            </Text>
+            <Text style={styles.name} ellipsizeMode={'tail'} numberOfLines={1}>
+              Token Address: 0xbe03ea86a1bb5461f54ab0e1322da61f4957cea2
+            </Text>
+            <Text style={styles.name} ellipsizeMode={'tail'} numberOfLines={1}>
+              Chain: Ethereum Mainnet
+            </Text>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress={() =>
+                Linking.openURL("https://etherscan.io/nft/0xc323f3b39ab0779fc6300cad7d7e3f47c1b86c27/" + tokenId)
+              }>
+              <Text style={styles.buttonTextStyle}>See asset on the blockchain</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              activeOpacity={0.5}
+              onPress={runVerificationAnimation}>
+              <Text style={styles.buttonTextStyle}>Show proof of authenticity</Text>
+            </TouchableOpacity>
+          </View>
         </Modal>
 
       </Portal>
@@ -225,7 +277,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
     fontSize: 15
   },
-  modalButton: {backgroundColor: '#7DE24E', margin: 10}
+  modalButton: {
+    backgroundColor: '#7DE24E', 
+    margin: 10
+  },
+  nameBig: {
+    fontSize: 25,
+    color: '#414a4c',
+    fontWeight: '600',
+  },
+  name: {
+    fontSize: 18,
+    color: '#414a4c',
+    fontWeight: '600',
+  },
 });
 
 export default BuyWatch;
