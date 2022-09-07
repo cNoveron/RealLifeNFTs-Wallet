@@ -198,9 +198,13 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    implementation "com.facebook.react:react-native:+"
+    // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation "androidx.appcompat:appcompat:1.0.0"
 
     implementation project(':react-native-webview')
 
