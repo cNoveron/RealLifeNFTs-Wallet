@@ -5,6 +5,8 @@ platform :ios, '15.4'
 
 pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+pod 'react-native-video', :path => '../node_modules/react-native-video'
+
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera/Permission-Camera.podspec"
 
