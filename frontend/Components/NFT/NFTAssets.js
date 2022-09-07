@@ -241,7 +241,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
     fontSize: 15
   },
-  modalButton: {backgroundColor: '#7DE24E', margin: 10}
+  modalButton: {
+    backgroundColor: '#7DE24E', 
+    margin: 10
+  }
 });
 
 export default NFTAssets;

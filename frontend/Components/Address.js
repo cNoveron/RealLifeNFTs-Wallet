@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   imageContainer: {
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   headerText: {
-    width: 130,
+    width: 250,
     paddingHorizontal: 10,
     fontSize: 18,
     color: '#414a4c',
